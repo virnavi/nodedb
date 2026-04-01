@@ -10,12 +10,16 @@ import 'package:nodedb_example/database/product_database.dart';
 /// and federation engine. Both databases communicate with remote devices
 /// exclusively through the mesh.
 class MeshService {
-  late final DatabaseMesh mesh;
-  late final UserDatabase userDb;
-  late final ProductDatabase productDb;
+  late DatabaseMesh mesh;
+  late UserDatabase userDb;
+  late ProductDatabase productDb;
 
   /// All NodeDB instances for inspector overlay.
   List<NodeDB> get databases => [userDb.db, productDb.db];
+
+  void close() {
+    mesh.close();
+  }
 
   void init(String baseDir) {
     final meshDir = Directory('$baseDir/mesh');
