@@ -1,0 +1,25 @@
+# Cross-compilation settings for Android NDK targets.
+# NDK: 28.2.13676358  |  CMake: 3.22.1
+
+[env]
+NDK_BIN    = { value = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin", force = false }
+CMAKE      = { value = "D:\\env\\android\\sdk\\cmake\\3.22.1\\bin\\cmake.exe", force = false }
+
+# C compiler per Android ABI (used by cc-rs / aws-lc-sys)
+CC_aarch64_linux_android   = { value = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\aarch64-linux-android21-clang.cmd",  force = false }
+CC_armv7_linux_androideabi = { value = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\armv7a-linux-androideabi21-clang.cmd", force = false }
+CC_x86_64_linux_android    = { value = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\x86_64-linux-android21-clang.cmd",    force = false }
+
+# Archiver per Android ABI
+AR_aarch64_linux_android   = { value = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-ar.exe", force = false }
+AR_armv7_linux_androideabi = { value = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-ar.exe", force = false }
+AR_x86_64_linux_android    = { value = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-ar.exe", force = false }
+
+[target.aarch64-linux-android]
+linker = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\aarch64-linux-android21-clang.cmd"
+
+[target.armv7-linux-androideabi]
+linker = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\armv7a-linux-androideabi21-clang.cmd"
+
+[target.x86_64-linux-android]
+linker = "D:\\env\\android\\sdk\\ndk\\28.2.13676358\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\x86_64-linux-android21-clang.cmd"

@@ -1,0 +1,37 @@
+[package]
+name = "nodedb-ffi"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+nodedb-nosql = { path = "../nodedb-nosql" }
+nodedb-graph = { path = "../nodedb-graph" }
+nodedb-vector = { path = "../nodedb-vector" }
+nodedb-dac = { path = "../nodedb-dac" }
+nodedb-federation = { path = "../nodedb-federation" }
+nodedb-storage = { path = "../nodedb-storage" }
+nodedb-transport = { path = "../nodedb-transport" }
+nodedb-crypto = { path = "../nodedb-crypto" }
+nodedb-provenance = { path = "../nodedb-provenance" }
+nodedb-keyresolver = { path = "../nodedb-keyresolver" }
+nodedb-ai-provenance = { path = "../nodedb-ai-provenance" }
+nodedb-ai-query = { path = "../nodedb-ai-query" }
+tokio = { version = "1", features = ["rt-multi-thread"] }
+rmp-serde = "1"
+rmpv = { version = "1", features = ["with-serde"] }
+serde = { version = "1", features = ["derive"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4"] }
+rand = "0.8"
+
+[dev-dependencies]
+tempfile = "3"
+nodedb-crypto = { path = "../nodedb-crypto" }
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "engine_benchmarks"
+harness = false

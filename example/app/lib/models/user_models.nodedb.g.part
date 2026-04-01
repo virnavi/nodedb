@@ -1,0 +1,493 @@
+// **************************************************************************
+// CollectionGenerator
+// **************************************************************************
+
+// ── Schema ─────────────────────────────────────────────────────
+const _userSchema = NodeDbSchema(
+  name: 'users',
+  schema: 'public',
+  singleton: false,
+  type: 'collection',
+  fields: [
+    SchemaField('id', 'string', indexed: true, unique: true),
+    SchemaField('name', 'string'),
+    SchemaField('email', 'string', indexed: true, unique: true),
+    SchemaField('avatarUrl', 'string'),
+    SchemaField('createdAt', 'datetime'),
+  ],
+);
+
+const _userSchemaJson = <String, dynamic>{
+  'name': 'users',
+  'schema': 'public',
+  'type': 'collection',
+  'required_fields': [
+    'name',
+    'email',
+  ],
+  'field_types': {
+    'id': 'string',
+    'name': 'string',
+    'email': 'string',
+    'avatarUrl': 'string',
+    'createdAt': 'datetime',
+  },
+};
+
+/// Fully qualified collection name: public.users
+const userCollectionName = 'public.users';
+
+// ── Serialization ──────────────────────────────────────────────
+User _$UserFromMap(Map<String, dynamic> map) {
+  return User(
+    id: map['id'] as String,
+    name: map['name'] as String,
+    email: map['email'] as String,
+    avatarUrl: map['avatarUrl'] as String?,
+    createdAt: map['createdAt'] != null
+        ? DateTime.parse(map['createdAt'] as String)
+        : null,
+  );
+}
+
+Map<String, dynamic> _$UserToMap(User instance) {
+  return {
+    'id': instance.id,
+    'name': instance.name,
+    'email': instance.email,
+    'avatarUrl': instance.avatarUrl,
+    'createdAt': instance.createdAt?.toIso8601String(),
+  };
+}
+
+// ── Filter Extensions ───────────────────────────────────────────
+extension UserFilterExtension on FilterQuery<User> {
+  FilterQuery<User> idEqualTo(String value) => equalTo('id', value);
+  FilterQuery<User> idNotEqualTo(String value) => notEqualTo('id', value);
+  FilterQuery<User> idInList(List<String> values) => inList('id', values);
+  FilterQuery<User> idNotInList(List<String> values) => notInList('id', values);
+  FilterQuery<User> idContains(String value) => contains('id', value);
+  FilterQuery<User> idStartsWith(String value) => startsWith('id', value);
+  FilterQuery<User> idEndsWith(String value) => endsWith('id', value);
+  FilterQuery<User> nameEqualTo(String value) => equalTo('name', value);
+  FilterQuery<User> nameNotEqualTo(String value) => notEqualTo('name', value);
+  FilterQuery<User> nameInList(List<String> values) => inList('name', values);
+  FilterQuery<User> nameNotInList(List<String> values) =>
+      notInList('name', values);
+  FilterQuery<User> nameContains(String value) => contains('name', value);
+  FilterQuery<User> nameStartsWith(String value) => startsWith('name', value);
+  FilterQuery<User> nameEndsWith(String value) => endsWith('name', value);
+  FilterQuery<User> emailEqualTo(String value) => equalTo('email', value);
+  FilterQuery<User> emailNotEqualTo(String value) => notEqualTo('email', value);
+  FilterQuery<User> emailInList(List<String> values) => inList('email', values);
+  FilterQuery<User> emailNotInList(List<String> values) =>
+      notInList('email', values);
+  FilterQuery<User> emailContains(String value) => contains('email', value);
+  FilterQuery<User> emailStartsWith(String value) => startsWith('email', value);
+  FilterQuery<User> emailEndsWith(String value) => endsWith('email', value);
+  FilterQuery<User> avatarUrlEqualTo(String value) =>
+      equalTo('avatarUrl', value);
+  FilterQuery<User> avatarUrlNotEqualTo(String value) =>
+      notEqualTo('avatarUrl', value);
+  FilterQuery<User> avatarUrlInList(List<String> values) =>
+      inList('avatarUrl', values);
+  FilterQuery<User> avatarUrlNotInList(List<String> values) =>
+      notInList('avatarUrl', values);
+  FilterQuery<User> avatarUrlIsNull() => isNull('avatarUrl');
+  FilterQuery<User> avatarUrlIsNotNull() => isNotNull('avatarUrl');
+  FilterQuery<User> avatarUrlContains(String value) =>
+      contains('avatarUrl', value);
+  FilterQuery<User> avatarUrlStartsWith(String value) =>
+      startsWith('avatarUrl', value);
+  FilterQuery<User> avatarUrlEndsWith(String value) =>
+      endsWith('avatarUrl', value);
+  FilterQuery<User> createdAtEqualTo(DateTime value) =>
+      equalTo('createdAt', value);
+  FilterQuery<User> createdAtNotEqualTo(DateTime value) =>
+      notEqualTo('createdAt', value);
+  FilterQuery<User> createdAtInList(List<DateTime> values) =>
+      inList('createdAt', values);
+  FilterQuery<User> createdAtNotInList(List<DateTime> values) =>
+      notInList('createdAt', values);
+  FilterQuery<User> createdAtIsNull() => isNull('createdAt');
+  FilterQuery<User> createdAtIsNotNull() => isNotNull('createdAt');
+  FilterQuery<User> createdAtGreaterThan(DateTime value) =>
+      greaterThan('createdAt', value);
+  FilterQuery<User> createdAtGreaterThanOrEqual(DateTime value) =>
+      greaterThanOrEqual('createdAt', value);
+  FilterQuery<User> createdAtLessThan(DateTime value) =>
+      lessThan('createdAt', value);
+  FilterQuery<User> createdAtLessThanOrEqual(DateTime value) =>
+      lessThanOrEqual('createdAt', value);
+  FilterQuery<User> createdAtBetween(DateTime low, DateTime high) =>
+      between('createdAt', low, high);
+  FilterQuery<User> sortById({bool desc = false}) => sortBy('id', desc: desc);
+  FilterQuery<User> sortByName({bool desc = false}) =>
+      sortBy('name', desc: desc);
+  FilterQuery<User> sortByEmail({bool desc = false}) =>
+      sortBy('email', desc: desc);
+  FilterQuery<User> sortByAvatarUrl({bool desc = false}) =>
+      sortBy('avatarUrl', desc: desc);
+  FilterQuery<User> sortByCreatedAt({bool desc = false}) =>
+      sortBy('createdAt', desc: desc);
+}
+
+// ── DAO ────────────────────────────────────────────────────────
+abstract class UserDaoBase {
+  NoSqlEngine get _engine;
+  ProvenanceEngine? get _provenanceEngine => null;
+  CollectionNotifier? get _notifier => null;
+  String? get _databaseName => null;
+
+  String get collectionName => 'users';
+  static const schemaName = 'public';
+  String get qualifiedName {
+    final db = _databaseName;
+    if (db != null && db.isNotEmpty) return '$db.$schemaName.$collectionName';
+    return '$schemaName.$collectionName';
+  }
+
+  User _fromDocument(Document doc) => _$UserFromMap(doc.data);
+  Map<String, dynamic> _toMap(User item) => _$UserToMap(item);
+
+  Document? _findDocumentById(String id) {
+    final docs = _engine.findAll(
+      collectionName,
+      filter: {
+        'Condition': {
+          'EqualTo': {'field': 'id', 'value': id}
+        }
+      },
+      limit: 1,
+    );
+    return docs.isEmpty ? null : docs.first;
+  }
+
+  User? findById(String id) {
+    final doc = _findDocumentById(id);
+    if (doc == null) return null;
+    return _fromDocument(doc);
+  }
+
+  void create(User item) {
+    final map = _toMap(item);
+    if (map['id'] == null ||
+        (map['id'] is String && (map['id'] as String).isEmpty)) {
+      map['id'] = generateNodeDbId();
+    }
+    _engine.writeTxn([WriteOp.put(collectionName, data: map)]);
+    _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+  }
+
+  void createWithCache(User item, CacheConfig cache) {
+    final map = _toMap(item);
+    if (map['id'] == null ||
+        (map['id'] is String && (map['id'] as String).isEmpty)) {
+      map['id'] = generateNodeDbId();
+    }
+    _engine.writeTxn([WriteOp.put(collectionName, data: map, cache: cache)]);
+    _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+  }
+
+  void createAll(List<User> items) {
+    _engine.writeTxn(
+      items.map((item) {
+        final map = _toMap(item);
+        if (map['id'] == null ||
+            (map['id'] is String && (map['id'] as String).isEmpty)) {
+          map['id'] = generateNodeDbId();
+        }
+        return WriteOp.put(collectionName, data: map);
+      }).toList(),
+    );
+    _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+  }
+
+  void save(User item) {
+    final map = _toMap(item);
+    if (map['id'] == null ||
+        (map['id'] is String && (map['id'] as String).isEmpty)) {
+      map['id'] = generateNodeDbId();
+    }
+    final existing = _findDocumentById(map['id'] as String);
+    _engine.writeTxn([
+      WriteOp.put(collectionName, data: map, id: existing?.id),
+    ]);
+    _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+  }
+
+  void saveWithCache(User item, CacheConfig cache) {
+    final map = _toMap(item);
+    if (map['id'] == null ||
+        (map['id'] is String && (map['id'] as String).isEmpty)) {
+      map['id'] = generateNodeDbId();
+    }
+    final existing = _findDocumentById(map['id'] as String);
+    _engine.writeTxn([
+      WriteOp.put(collectionName, data: map, id: existing?.id, cache: cache),
+    ]);
+    _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+  }
+
+  void saveAll(List<User> items) {
+    final ops = <WriteOp>[];
+    for (final item in items) {
+      final map = _toMap(item);
+      if (map['id'] == null ||
+          (map['id'] is String && (map['id'] as String).isEmpty)) {
+        map['id'] = generateNodeDbId();
+      }
+      final existing = _findDocumentById(map['id'] as String);
+      ops.add(WriteOp.put(collectionName, data: map, id: existing?.id));
+    }
+    _engine.writeTxn(ops);
+    _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+  }
+
+  User? updateById(String id, User Function(User current) modifier) {
+    final doc = _findDocumentById(id);
+    if (doc == null) return null;
+    final current = _fromDocument(doc);
+    final updated = modifier(current);
+    final map = _toMap(updated);
+    map['id'] = id;
+    _engine.writeTxn([WriteOp.put(collectionName, data: map, id: doc.id)]);
+    _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+    return updated;
+  }
+
+  bool deleteById(String id) {
+    final doc = _findDocumentById(id);
+    if (doc == null) return false;
+    _engine.writeTxn([WriteOp.delete(collectionName, id: doc.id)]);
+    _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+    return true;
+  }
+
+  void deleteAllById(List<String> ids) {
+    final ops = <WriteOp>[];
+    for (final id in ids) {
+      final doc = _findDocumentById(id);
+      if (doc != null) {
+        ops.add(WriteOp.delete(collectionName, id: doc.id));
+      }
+    }
+    if (ops.isNotEmpty) {
+      _engine.writeTxn(ops);
+      _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+    }
+  }
+
+  int deleteWhere(FilterQuery<User> Function(FilterQuery<User>) filter) {
+    final items = findWhere(filter);
+    final ops = <WriteOp>[];
+    for (final item in items) {
+      final doc = _findDocumentById(item.id);
+      if (doc != null) {
+        ops.add(WriteOp.delete(collectionName, id: doc.id));
+      }
+    }
+    if (ops.isNotEmpty) {
+      _engine.writeTxn(ops);
+      _notifier?.notifyLocal(collectionName, SyncEventType.localChange);
+    }
+    return ops.length;
+  }
+
+  WithProvenance<User>? findByIdWithProvenance(String id) {
+    final doc = _findDocumentById(id);
+    if (doc == null) return null;
+    ProvenanceEnvelope? envelope;
+    if (_provenanceEngine != null) {
+      final envelopes = _provenanceEngine!.getForRecord(collectionName, doc.id);
+      if (envelopes.isNotEmpty) envelope = envelopes.last;
+    }
+    return WithProvenance(_fromDocument(doc), envelope);
+  }
+
+  Stream<List<User>> watchAll(
+      {FilterQuery<User>? query, bool fireImmediately = true}) {
+    if (_notifier == null) return Stream.value(findAll(query));
+    return _notifier!.watch<List<User>>(collectionName, () => findAll(query),
+        fireImmediately: fireImmediately);
+  }
+
+  Stream<User?> watchById(String id, {bool fireImmediately = true}) {
+    if (_notifier == null) return Stream.value(findById(id));
+    return _notifier!.watch<User?>(collectionName, () => findById(id),
+        fireImmediately: fireImmediately);
+  }
+
+  Stream<List<User>> watchWhere(
+    FilterQuery<User> Function(FilterQuery<User>) filter, {
+    bool fireImmediately = true,
+  }) =>
+      watchAll(
+          query: filter(FilterQuery<User>()), fireImmediately: fireImmediately);
+
+  List<User> findAll([FilterQuery<User>? query]) {
+    final params = query?.build() ?? {};
+    final docs = _engine.findAll(
+      collectionName,
+      filter: params['filter'] as Map<String, dynamic>?,
+      sort: (params['sort'] as List?)?.cast<Map<String, dynamic>>(),
+      offset: params['offset'] as int?,
+      limit: params['limit'] as int?,
+    );
+    return docs.map(_fromDocument).toList();
+  }
+
+  User? findFirst(FilterQuery<User> Function(FilterQuery<User>) filter) {
+    final query = filter(FilterQuery<User>())..limit(1);
+    final results = findAll(query);
+    return results.isEmpty ? null : results.first;
+  }
+
+  List<User> findWhere(FilterQuery<User> Function(FilterQuery<User>) filter) {
+    return findAll(filter(FilterQuery<User>()));
+  }
+
+  int count() => _engine.count(collectionName);
+
+  int countWhere(FilterQuery<User> Function(FilterQuery<User>) filter) {
+    return findWhere(filter).length;
+  }
+
+  bool exists(FilterQuery<User> Function(FilterQuery<User>) filter) {
+    return findFirst(filter) != null;
+  }
+
+  List<User> findPage({required int limit, int offset = 0}) {
+    return findAll(FilterQuery<User>()
+      ..offset(offset)
+      ..limit(limit));
+  }
+
+  List<User> findPageWhere(
+    FilterQuery<User> Function(FilterQuery<User>) filter, {
+    required int limit,
+    int offset = 0,
+  }) {
+    final query = filter(FilterQuery<User>())
+      ..offset(offset)
+      ..limit(limit);
+    return findAll(query);
+  }
+
+  List<WithProvenance<User>> findAllWithProvenance([FilterQuery<User>? query]) {
+    final params = query?.build() ?? {};
+    final docs = _engine.findAll(
+      collectionName,
+      filter: params['filter'] as Map<String, dynamic>?,
+      sort: (params['sort'] as List?)?.cast<Map<String, dynamic>>(),
+      offset: params['offset'] as int?,
+      limit: params['limit'] as int?,
+    );
+    return docs.map((doc) {
+      ProvenanceEnvelope? envelope;
+      if (_provenanceEngine != null) {
+        final envelopes =
+            _provenanceEngine!.getForRecord(collectionName, doc.id);
+        if (envelopes.isNotEmpty) envelope = envelopes.last;
+      }
+      return WithProvenance(_fromDocument(doc), envelope);
+    }).toList();
+  }
+
+  List<WithProvenance<User>> findWhereWithProvenance(
+    FilterQuery<User> Function(FilterQuery<User>) filter,
+  ) {
+    return findAllWithProvenance(filter(FilterQuery<User>()));
+  }
+
+  /// Sweep expired cached records in this collection.
+  /// Returns the count of deleted records.
+  int sweepExpired() => _engine.sweepExpired(collectionName);
+}
+
+// ── Concrete DAO ───────────────────────────────────────────────
+class UserDao extends UserDaoBase {
+  @override
+  final NoSqlEngine _engine;
+  @override
+  final ProvenanceEngine? _provenanceEngine;
+  @override
+  final CollectionNotifier? _notifier;
+  @override
+  final String? _databaseName;
+  UserDao(this._engine,
+      [this._provenanceEngine, this._notifier, this._databaseName]);
+  // Add custom query methods here
+}
+
+// **************************************************************************
+// PreferencesAnnotationGenerator
+// **************************************************************************
+
+// ── Serialization ──────────────────────────────────────────────
+UserPrefs _$UserPrefsFromMap(Map<String, dynamic> map) {
+  return UserPrefs(
+    theme: map['theme'] as String,
+    notificationsEnabled: map['notificationsEnabled'] as bool,
+  );
+}
+
+Map<String, dynamic> _$UserPrefsToMap(UserPrefs instance) {
+  return {
+    'theme': instance.theme,
+    'notificationsEnabled': instance.notificationsEnabled,
+  };
+}
+
+// ── Preferences Accessor ───────────────────────────────────────
+abstract class UserPrefsPrefsBase {
+  NoSqlEngine get _engine;
+
+  String get storeName => 'user_prefses';
+
+  String? getTheme() {
+    final resp = _engine.prefGet(storeName, 'theme');
+    if (resp is Map && resp['found'] == true) return resp['value'] as String;
+    return null;
+  }
+
+  void setTheme(String value, {bool shareable = false}) {
+    _engine.prefSet(storeName, 'theme', value, shareable: shareable);
+  }
+
+  bool removeTheme() {
+    return _engine.prefRemove(storeName, 'theme');
+  }
+
+  bool? getNotificationsEnabled() {
+    final resp = _engine.prefGet(storeName, 'notificationsEnabled');
+    if (resp is Map && resp['found'] == true) return resp['value'] as bool;
+    return null;
+  }
+
+  void setNotificationsEnabled(bool value, {bool shareable = false}) {
+    _engine.prefSet(storeName, 'notificationsEnabled', value,
+        shareable: shareable);
+  }
+
+  bool removeNotificationsEnabled() {
+    return _engine.prefRemove(storeName, 'notificationsEnabled');
+  }
+
+  List<String> allKeys() => _engine.prefKeys(storeName);
+
+  List<Map<String, dynamic>> shareableEntries() =>
+      _engine.prefShareable(storeName);
+
+  void removeAll() {
+    for (final key in allKeys()) {
+      _engine.prefRemove(storeName, key);
+    }
+  }
+}
+
+class UserPrefsPrefs extends UserPrefsPrefsBase {
+  @override
+  final NoSqlEngine _engine;
+  UserPrefsPrefs(this._engine);
+}

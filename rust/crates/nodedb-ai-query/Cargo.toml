@@ -1,0 +1,17 @@
+[package]
+name = "nodedb-ai-query"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+nodedb-nosql = { path = "../nodedb-nosql" }
+nodedb-provenance = { path = "../nodedb-provenance" }
+nodedb-storage = { path = "../nodedb-storage" }
+serde = { version = "1", features = ["derive"] }
+rmp-serde = "1"
+rmpv = "1"
+thiserror = "2"
+chrono = { version = "0.4", features = ["serde"] }
+
+[dev-dependencies]
+tempfile = "3"

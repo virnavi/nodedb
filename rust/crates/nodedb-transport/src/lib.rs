@@ -1,0 +1,24 @@
+pub mod error;
+pub mod types;
+pub mod tls;
+pub mod audit;
+pub mod credential;
+pub mod connection;
+pub mod connection_pool;
+pub mod server;
+pub mod client;
+pub mod handshake;
+pub mod gossip;
+pub mod discovery;
+pub mod router;
+pub mod query_handler;
+pub mod mesh;
+pub mod pairing;
+pub mod engine;
+
+pub use error::TransportError;
+pub use types::*;
+pub use mesh::{MeshSharingStatus, MeshConfig, MeshRouter, MeshPeerInfo, MeshMember, MeshStatus};
+pub use pairing::{PairingStore, PairingRecord, PendingPairingRequest};
+pub use engine::TransportEngine;
+pub use query_handler::QueryHandler;

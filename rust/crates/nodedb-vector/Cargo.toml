@@ -1,0 +1,18 @@
+[package]
+name = "nodedb-vector"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+nodedb-storage = { path = "../nodedb-storage" }
+hnsw_rs = "0.3"
+anndists = "0.1"
+serde = { version = "1", features = ["derive"] }
+rmp-serde = "1"
+rmpv = { version = "1", features = ["with-serde"] }
+thiserror = "2"
+chrono = { version = "0.4", features = ["serde"] }
+
+[dev-dependencies]
+tempfile = "3"
+rand = "0.8"

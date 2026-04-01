@@ -1,0 +1,40 @@
+name: statistics
+description: NodeDB performance benchmark — compares NodeDB against 4 other Flutter databases.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  nodedb:
+    path: ../../packages/nodedb
+  nodedb_flutter_libs:
+    path: ../../packages/nodedb_flutter_libs
+  sqflite: ^2.4.0
+  hive_ce: ^2.10.0
+  hive_ce_flutter: ^2.1.0
+  drift: ^2.22.0
+  sqlite3_flutter_libs: ^0.5.0
+  objectbox: ^4.0.0
+  objectbox_flutter_libs: ^4.0.0
+  isar_community: ^3.3.0
+  isar_community_flutter_libs: ^3.3.0
+  path_provider: ^2.1.0
+  fl_chart: ^0.70.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.0
+  drift_dev: ^2.22.0
+  objectbox_generator: ^4.0.0
+
+dependency_overrides:
+  source_gen: ^4.0.0
+
+flutter:
+  uses-material-design: true

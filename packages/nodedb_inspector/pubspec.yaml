@@ -1,0 +1,22 @@
+name: nodedb_inspector
+description: Debug inspector data layer for NodeDB databases
+version: 0.0.1
+publish_to: none
+homepage: https://github.com/virnavi/nodedb
+repository: https://github.com/virnavi/nodedb
+issue_tracker: https://github.com/virnavi/nodedb/issues
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  inspector_sdk:
+    path: ../inspector_sdk
+  nodedb:
+    path: ../nodedb
+  nodedb_ffi:
+    path: ../nodedb_ffi
+
+dev_dependencies:
+  test: ^1.24.0
+  lints: ^4.0.0

@@ -1,0 +1,37 @@
+name: nodedb_example
+description: NodeDB Flutter example app — demonstrates every capability end-to-end.
+publish_to: none
+version: 1.0.0+1
+homepage: https://nodedb.dev
+repository: https://github.com/mshakib/nodedb
+issue_tracker: https://github.com/mshakib/nodedb/issues
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  nodedb:
+    path: ../../packages/nodedb
+  nodedb_flutter_libs:
+    path: ../../packages/nodedb_flutter_libs
+  nodedb_inspector:
+    path: ../../packages/nodedb_inspector
+  nodedb_inspector_flutter:
+    path: ../../packages/nodedb_inspector_flutter
+  path_provider: ^2.1.0
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^7.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  nodedb_generator:
+    path: ../../packages/nodedb_generator
+  build_runner: ^2.4.0
+
+flutter:
+  uses-material-design: true

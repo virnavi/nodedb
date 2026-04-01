@@ -1,0 +1,15 @@
+[package]
+name = "nodedb-storage"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+sled = "0.34"
+serde = { version = "1", features = ["derive"] }
+rmp-serde = "1"
+thiserror = "2"
+aes-gcm = "0.10"
+rand = "0.8"
+
+[dev-dependencies]
+tempfile = "3"

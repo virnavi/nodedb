@@ -1,0 +1,8 @@
+builders:
+  nodedb_generator:
+    import: "package:nodedb_generator/builder.dart"
+    builder_factories: ["nodedbBuilder"]
+    build_extensions: {".dart": [".nodedb.g.part"]}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]

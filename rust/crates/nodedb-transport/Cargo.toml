@@ -1,0 +1,33 @@
+[package]
+name = "nodedb-transport"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+nodedb-storage = { path = "../nodedb-storage" }
+nodedb-federation = { path = "../nodedb-federation" }
+nodedb-crypto = { path = "../nodedb-crypto" }
+tokio = { version = "1", features = ["rt-multi-thread", "net", "time", "sync", "macros", "io-util"] }
+tokio-tungstenite = { version = "0.24", features = ["rustls-tls-native-roots"] }
+tokio-rustls = "0.26"
+rustls = { version = "0.23", default-features = false, features = ["ring", "tls12"] }
+rustls-pemfile = "2"
+rcgen = "0.13"
+mdns-sd = "0.11"
+serde = { version = "1", features = ["derive"] }
+rmp-serde = "1"
+rmpv = { version = "1", features = ["with-serde"] }
+thiserror = "2"
+chrono = { version = "0.4", features = ["serde"] }
+rand = "0.8"
+sha2 = "0.10"
+hmac = "0.12"
+tracing = "0.1"
+futures-util = "0.3"
+dashmap = "6"
+uuid = { version = "1", features = ["v4"] }
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { version = "1", features = ["test-util", "rt-multi-thread", "macros"] }
+tracing-subscriber = "0.3"
