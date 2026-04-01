@@ -6,13 +6,13 @@ Version: `0.0.2`
 
 | Platform | Rust Target | Output | Status | Notes |
 |---|---|---|---|---|
-| Windows x64 | `x86_64-pc-windows-msvc` | `packages/nodedb_flutter_libs/windows/nodedb_ffi.dll` | ✅ Built | NDK: N/A |
+| Windows x64 | `x86_64-pc-windows-msvc` | `packages/nodedb_flutter_libs/windows/nodedb_ffi.dll` | N/A | Requires Windows host |
 | Android arm64 | `aarch64-linux-android` | `packages/nodedb_flutter_libs/android/src/main/jniLibs/arm64-v8a/libnodedb_ffi.so` | ✅ Built | NDK: 28.2.13676358 |
 | Android armv7 | `armv7-linux-androideabi` | `packages/nodedb_flutter_libs/android/src/main/jniLibs/armeabi-v7a/libnodedb_ffi.so` | ✅ Built | NDK: 28.2.13676358 |
 | Android x86_64 | `x86_64-linux-android` | `packages/nodedb_flutter_libs/android/src/main/jniLibs/x86_64/libnodedb_ffi.so` | ✅ Built | NDK: 28.2.13676358 |
-| Linux x64 | `x86_64-unknown-linux-gnu` | `packages/nodedb_flutter_libs/linux/libnodedb_ffi.so` | ⏳ Pending | Requires Linux host |
-| iOS device | `aarch64-apple-ios` | `packages/nodedb_flutter_libs/ios/nodedb.xcframework` | ✅ Built | Xcode 26.2, static lib (.a) |
-| iOS simulator | `aarch64-apple-ios-sim` | `packages/nodedb_flutter_libs/ios/nodedb.xcframework` | ✅ Built | Xcode 26.2, static lib (.a) |
+| Linux x64 | `x86_64-unknown-linux-gnu` | `packages/nodedb_flutter_libs/linux/libnodedb_ffi.so` | N/A | Requires Linux host |
+| iOS device | `aarch64-apple-ios` | `packages/nodedb_flutter_libs/ios/nodedb.xcframework` | ✅ Built | Xcode, static lib (.a) |
+| iOS simulator | `aarch64-apple-ios-sim` | `packages/nodedb_flutter_libs/ios/nodedb.xcframework` | ✅ Built | Xcode, static lib (.a) |
 | macOS arm64 | `aarch64-apple-darwin` | `packages/nodedb_flutter_libs/macos/libnodedb_ffi.dylib` | ✅ Built | Universal binary via lipo |
 | macOS x64 | `x86_64-apple-darwin` | `packages/nodedb_flutter_libs/macos/libnodedb_ffi.dylib` | ✅ Built | Universal binary via lipo |
 
