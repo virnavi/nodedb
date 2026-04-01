@@ -16,22 +16,22 @@ dependencies:
   nodedb:
     git:
       url: https://github.com/virnavi/nodedb
-      ref: "0.0.1"
+      ref: "0.0.2"
       path: packages/nodedb
   nodedb_flutter_libs:
     git:
       url: https://github.com/virnavi/nodedb
-      ref: "0.0.1"
+      ref: "0.0.2"
       path: packages/nodedb_flutter_libs
   nodedb_inspector:
     git:
       url: https://github.com/virnavi/nodedb
-      ref: "0.0.1"
+      ref: "0.0.2"
       path: packages/nodedb_inspector
   nodedb_inspector_flutter:
     git:
       url: https://github.com/virnavi/nodedb
-      ref: "0.0.1"
+      ref: "0.0.2"
       path: packages/nodedb_inspector_flutter
   path_provider: ^2.1.0
   qr_flutter: ^4.1.0
@@ -44,7 +44,7 @@ dev_dependencies:
   nodedb_generator:
     git:
       url: https://github.com/virnavi/nodedb
-      ref: "0.0.1"
+      ref: "0.0.2"
       path: packages/nodedb_generator
   build_runner: ^2.4.0
 

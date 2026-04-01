@@ -60,20 +60,72 @@ pub fn validate_database_name(name: &str) -> Result<(), StorageError> {
 
 impl StorageEngine {
     pub fn open(path: &std::path::Path) -> Result<Self, StorageError> {
-        let db = sled::open(path)?;
+        let db = Self::open_sled(path)?;
         Ok(StorageEngine { db, dek: None, mismatch: false })
     }
 
     /// Open a storage engine with a Data Encryption Key for transparent encryption.
     pub fn open_encrypted(path: &std::path::Path, dek: [u8; 32]) -> Result<Self, StorageError> {
-        let db = sled::open(path)?;
+        let db = Self::open_sled(path)?;
         Ok(StorageEngine { db, dek: Some(dek), mismatch: false })
     }
 
     /// Open a storage engine in mismatch mode (all reads return empty, writes are no-ops).
     pub fn open_mismatch(path: &std::path::Path) -> Result<Self, StorageError> {
-        let db = sled::open(path)?;
+        let db = Self::open_sled(path)?;
         Ok(StorageEngine { db, dek: None, mismatch: true })
+    }
+
+    /// Open a sled database, handling stale lock conflicts.
+    ///
+    /// If the initial open fails because another process holds the database lock
+    /// (e.g. a stale app instance still running after a rebuild), this method
+    /// terminates the stale lock holder and retries once.
+    fn open_sled(path: &std::path::Path) -> Result<sled::Db, StorageError> {
+        match sled::open(path) {
+            Ok(db) => Ok(db),
+            Err(e) => {
+                let err_str = e.to_string();
+                if err_str.contains("could not acquire lock") {
+                    Self::kill_stale_lock_holder(path);
+                    std::thread::sleep(std::time::Duration::from_millis(500));
+                    sled::open(path).map_err(|e| StorageError::Backend(e.to_string()))
+                } else {
+                    Err(StorageError::Backend(err_str))
+                }
+            }
+        }
+    }
+
+    /// Terminate stale processes holding the sled database lock.
+    ///
+    /// Uses `lsof` to find which process has the sled `db` file open
+    /// and sends SIGTERM to any process that is not the current one.
+    #[cfg(unix)]
+    fn kill_stale_lock_holder(path: &std::path::Path) {
+        let db_file = path.join("db");
+        let my_pid = std::process::id().to_string();
+
+        if let Ok(output) = std::process::Command::new("lsof")
+            .arg("-t")
+            .arg(&db_file)
+            .output()
+        {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            for line in stdout.lines() {
+                let pid = line.trim();
+                if !pid.is_empty() && pid != my_pid {
+                    let _ = std::process::Command::new("kill")
+                        .arg(pid)
+                        .output();
+                }
+            }
+        }
+    }
+
+    #[cfg(not(unix))]
+    fn kill_stale_lock_holder(_path: &std::path::Path) {
+        // On Windows, stale lock cleanup is not yet supported.
     }
 
     /// Set the DEK after opening.

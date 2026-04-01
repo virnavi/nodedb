@@ -3,7 +3,7 @@ PODS:
   - mobile_scanner (7.0.0):
     - Flutter
     - FlutterMacOS
-  - nodedb_flutter_libs (0.0.1)
+  - nodedb_flutter_libs (0.0.2)
 
 DEPENDENCIES:
   - FlutterMacOS (from `Flutter/ephemeral`)
@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
   mobile_scanner: 9157936403f5a0644ca3779a38ff8404c5434a93
-  nodedb_flutter_libs: 89232f83f75747e9e4eccbf7f0e9c2f299cfddeb
+  nodedb_flutter_libs: c8df4e8e65d8d037f22becf3fcd40da9a3a8ed10
 
 PODFILE CHECKSUM: 54d867c82ac51cbd61b565781b9fada492027009
 

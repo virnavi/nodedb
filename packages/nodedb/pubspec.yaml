@@ -1,6 +1,6 @@
 name: nodedb
 description: NodeDB embedded multi-engine database for Flutter
-version: 0.0.1
+version: 0.0.2
 publish_to: none
 homepage: https://github.com/virnavi/nodedb
 repository: https://github.com/virnavi/nodedb
@@ -13,7 +13,7 @@ dependencies:
   nodedb_ffi:
     git:
       url: https://github.com/virnavi/nodedb
-      ref: "0.0.1"
+      ref: "0.0.2"
       path: packages/nodedb_ffi
   ffi: ^2.1.0
   msgpack_dart: ^1.0.1
