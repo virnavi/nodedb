@@ -11,11 +11,17 @@ environment:
 
 dependencies:
   nodedb:
-    path: ../nodedb
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/nodedb
   test: ^1.24.0
   path: ^1.8.0
 
 dev_dependencies:
   nodedb_ffi:
-    path: ../nodedb_ffi
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/nodedb_ffi
   lints: ^4.0.0

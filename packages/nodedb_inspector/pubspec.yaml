@@ -11,11 +11,20 @@ environment:
 
 dependencies:
   inspector_sdk:
-    path: ../inspector_sdk
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/inspector_sdk
   nodedb:
-    path: ../nodedb
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/nodedb
   nodedb_ffi:
-    path: ../nodedb_ffi
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/nodedb_ffi
 
 dev_dependencies:
   test: ^1.24.0

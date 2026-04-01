@@ -2,6 +2,9 @@ name: statistics
 description: NodeDB performance benchmark — compares NodeDB against 4 other Flutter databases.
 publish_to: none
 version: 1.0.0+1
+homepage: https://github.com/virnavi/nodedb
+repository: https://github.com/virnavi/nodedb
+issue_tracker: https://github.com/virnavi/nodedb/issues
 
 environment:
   sdk: ^3.11.0
@@ -10,9 +13,15 @@ dependencies:
   flutter:
     sdk: flutter
   nodedb:
-    path: ../../packages/nodedb
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/nodedb
   nodedb_flutter_libs:
-    path: ../../packages/nodedb_flutter_libs
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/nodedb_flutter_libs
   sqflite: ^2.4.0
   hive_ce: ^2.10.0
   hive_ce_flutter: ^2.1.0

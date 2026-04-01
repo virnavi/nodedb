@@ -14,11 +14,20 @@ dependencies:
   flutter:
     sdk: flutter
   inspector_sdk:
-    path: ../inspector_sdk
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/inspector_sdk
   nodedb:
-    path: ../nodedb
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/nodedb
   nodedb_inspector:
-    path: ../nodedb_inspector
+    git:
+      url: https://github.com/virnavi/nodedb
+      ref: "0.0.1"
+      path: packages/nodedb_inspector
 
 dev_dependencies:
   flutter_test:
