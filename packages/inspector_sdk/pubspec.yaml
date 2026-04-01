@@ -1,6 +1,6 @@
 name: inspector_sdk
 description: Plugin/extension SDK for NodeDB inspector panels and data sources.
-version: 0.0.1
+version: 0.0.2
 publish_to: none
 homepage: https://github.com/virnavi/nodedb
 repository: https://github.com/virnavi/nodedb

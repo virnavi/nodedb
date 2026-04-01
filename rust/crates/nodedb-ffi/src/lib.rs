@@ -29,6 +29,31 @@ use types::*;
 
 static NEXT_HANDLE: AtomicU64 = AtomicU64::new(1);
 
+/// Reverse index: path → handle. When a Dart hot-restart reopens the same path,
+/// we return the existing handle instead of trying to acquire a new lock.
+fn path_handle_map() -> &'static RwLock<HashMap<String, u64>> {
+    use std::sync::OnceLock;
+    static MAP: OnceLock<RwLock<HashMap<String, u64>>> = OnceLock::new();
+    MAP.get_or_init(|| RwLock::new(HashMap::new()))
+}
+
+fn lookup_or_register_path(path: &str) -> Option<u64> {
+    let map = path_handle_map().read().ok()?;
+    map.get(path).copied()
+}
+
+fn register_path(path: &str, handle: u64) {
+    if let Ok(mut map) = path_handle_map().write() {
+        map.insert(path.to_string(), handle);
+    }
+}
+
+fn unregister_path(path: &str) {
+    if let Ok(mut map) = path_handle_map().write() {
+        map.remove(path);
+    }
+}
+
 // Use a function to get the global handle map
 fn handle_map() -> &'static RwLock<HashMap<DbHandle, Arc<Database>>> {
     use std::sync::OnceLock;
@@ -230,6 +255,15 @@ pub extern "C" fn nodedb_open(
 
         let path = PathBuf::from(&path_str);
 
+        // Hot-restart guard: return existing handle if this path is already open
+        if let Some(existing) = lookup_or_register_path(&path_str) {
+            if get_db(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         // Optional owner_private_key_hex for keypair-bound encryption
         let owner_key_hex = config.as_map()
             .and_then(|m| m.iter().find(|(k, _)| k.as_str() == Some("owner_private_key_hex")))
@@ -249,6 +283,7 @@ pub extern "C" fn nodedb_open(
                 db.set_self_ref();
                 let mut map = handle_map().write().unwrap();
                 map.insert(handle, db);
+                register_path(&path_str, handle);
                 unsafe { *out_handle = handle; }
                 clear_error(out_error);
                 true
@@ -2343,6 +2378,17 @@ pub extern "C" fn nodedb_graph_open(
         };
 
         let path = PathBuf::from(&path_str);
+
+        // Hot-restart guard
+        let graph_path_key = format!("graph:{}", path_str);
+        if let Some(existing) = lookup_or_register_path(&graph_path_key) {
+            if get_graph(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let storage = match StorageEngine::open(&path) {
             Ok(e) => Arc::new(e),
             Err(e) => {
@@ -2356,6 +2402,7 @@ pub extern "C" fn nodedb_graph_open(
                 let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
                 let mut map = graph_handle_map().write().unwrap();
                 map.insert(handle, Arc::new(graph));
+                register_path(&graph_path_key, handle);
                 unsafe { *out_handle = handle; }
                 clear_error(out_error);
                 true
@@ -2743,6 +2790,16 @@ pub extern "C" fn nodedb_vector_open(
             }
         };
 
+        // Hot-restart guard
+        let vector_path_key = format!("vector:{}", path_str);
+        if let Some(existing) = lookup_or_register_path(&vector_path_key) {
+            if get_vector(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let dimension = match config.as_map()
             .and_then(|m| m.iter().find(|(k, _)| k.as_str() == Some("dimension")))
             .and_then(|(_, v)| v.as_u64())
@@ -2804,6 +2861,7 @@ pub extern "C" fn nodedb_vector_open(
                 let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
                 let mut map = vector_handle_map().write().unwrap();
                 map.insert(handle, Arc::new(std::sync::Mutex::new(ve)));
+                register_path(&vector_path_key, handle);
                 unsafe { *out_handle = handle; }
                 clear_error(out_error);
                 true
@@ -3066,6 +3124,17 @@ pub extern "C" fn nodedb_federation_open(
         };
 
         let path = PathBuf::from(&path_str);
+
+        // Hot-restart guard
+        let fed_path_key = format!("federation:{}", path_str);
+        if let Some(existing) = lookup_or_register_path(&fed_path_key) {
+            if get_federation(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let storage = match StorageEngine::open(&path) {
             Ok(e) => Arc::new(e),
             Err(e) => {
@@ -3079,6 +3148,7 @@ pub extern "C" fn nodedb_federation_open(
                 let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
                 let mut map = federation_handle_map().write().unwrap();
                 map.insert(handle, Arc::new(fed));
+                register_path(&fed_path_key, handle);
                 unsafe { *out_handle = handle; }
                 clear_error(out_error);
                 true
@@ -3508,6 +3578,16 @@ pub extern "C" fn nodedb_dac_open(
             }
         };
 
+        // Hot-restart guard
+        let dac_path_key = format!("dac:{}", path_str);
+        if let Some(existing) = lookup_or_register_path(&dac_path_key) {
+            if get_dac(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let path = PathBuf::from(&path_str);
         let storage = match StorageEngine::open(&path) {
             Ok(e) => Arc::new(e),
@@ -3522,6 +3602,7 @@ pub extern "C" fn nodedb_dac_open(
                 let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
                 let mut map = dac_handle_map().write().unwrap();
                 map.insert(handle, Arc::new(dac));
+                register_path(&dac_path_key, handle);
                 unsafe { *out_handle = handle; }
                 clear_error(out_error);
                 true
@@ -3996,6 +4077,17 @@ pub extern "C" fn nodedb_transport_open(
         };
 
         let path_str = get_str("path").unwrap_or_default();
+
+        // Hot-restart guard
+        let transport_path_key = format!("transport:{}", path_str);
+        if let Some(existing) = lookup_or_register_path(&transport_path_key) {
+            if get_transport(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let listen_addr = get_str("listen_addr").unwrap_or_else(|| "0.0.0.0:9400".to_string());
         let mdns_enabled = get_bool("mdns_enabled").unwrap_or(true);
 
@@ -4136,6 +4228,7 @@ pub extern "C" fn nodedb_transport_open(
                 let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
                 let mut map = transport_handle_map().write().unwrap();
                 map.insert(handle, Arc::new(engine));
+                register_path(&transport_path_key, handle);
                 unsafe { *out_handle = handle; }
                 clear_error(out_error);
                 true
@@ -4815,6 +4908,16 @@ pub extern "C" fn nodedb_provenance_open(
             }
         };
 
+        // Hot-restart guard
+        let provenance_path_key = format!("provenance:{}", path_str);
+        if let Some(existing) = lookup_or_register_path(&provenance_path_key) {
+            if get_provenance(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let path = PathBuf::from(&path_str);
         let storage = match StorageEngine::open(&path) {
             Ok(e) => Arc::new(e),
@@ -4829,6 +4932,7 @@ pub extern "C" fn nodedb_provenance_open(
                 let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
                 let mut map = provenance_handle_map().write().unwrap();
                 map.insert(handle, Arc::new(prov));
+                register_path(&provenance_path_key, handle);
                 unsafe { *out_handle = handle; }
                 clear_error(out_error);
                 true
@@ -5235,6 +5339,16 @@ pub extern "C" fn nodedb_keyresolver_open(
             }
         };
 
+        // Hot-restart guard
+        let keyresolver_path_key = format!("keyresolver:{}", path_str);
+        if let Some(existing) = lookup_or_register_path(&keyresolver_path_key) {
+            if get_keyresolver(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let path = PathBuf::from(&path_str);
         let storage = match StorageEngine::open(&path) {
             Ok(e) => Arc::new(e),
@@ -5257,6 +5371,7 @@ pub extern "C" fn nodedb_keyresolver_open(
                 let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
                 let mut map = keyresolver_handle_map().write().unwrap();
                 map.insert(handle, Arc::new(kr));
+                register_path(&keyresolver_path_key, handle);
                 unsafe { *out_handle = handle; }
                 clear_error(out_error);
                 true
@@ -5700,6 +5815,16 @@ pub extern "C" fn nodedb_ai_provenance_open(
             .and_then(|v| v.as_u64())
             .unwrap_or(0);
 
+        // Hot-restart guard
+        let ai_provenance_path_key = format!("ai_provenance:{}", prov_handle);
+        if let Some(existing) = lookup_or_register_path(&ai_provenance_path_key) {
+            if get_ai_provenance(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let prov = match get_provenance(prov_handle) {
             Some(p) => p,
             None => {
@@ -5740,6 +5865,7 @@ pub extern "C" fn nodedb_ai_provenance_open(
         let engine = AiProvenanceEngine::new(prov, ai_config);
         let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
         ai_provenance_handle_map().write().unwrap().insert(handle, Arc::new(engine));
+        register_path(&ai_provenance_path_key, handle);
         unsafe { *out_handle = handle; }
         clear_error(out_error);
         true
@@ -5994,6 +6120,20 @@ pub extern "C" fn nodedb_ai_query_open(
             .and_then(|v| v.as_u64())
             .unwrap_or(0);
 
+        let prov_handle = map_field(&config, "provenance_handle")
+            .and_then(|v| v.as_u64())
+            .unwrap_or(0);
+
+        // Hot-restart guard
+        let ai_query_path_key = format!("ai_query:{}:{}", nosql_handle, prov_handle);
+        if let Some(existing) = lookup_or_register_path(&ai_query_path_key) {
+            if get_ai_query(existing).is_some() {
+                unsafe { *out_handle = existing; }
+                clear_error(out_error);
+                return true;
+            }
+        }
+
         let db = match get_db(nosql_handle) {
             Some(d) => d,
             None => {
@@ -6001,10 +6141,6 @@ pub extern "C" fn nodedb_ai_query_open(
                 return false;
             }
         };
-
-        let prov_handle = map_field(&config, "provenance_handle")
-            .and_then(|v| v.as_u64())
-            .unwrap_or(0);
 
         let prov = match get_provenance(prov_handle) {
             Some(p) => p,
@@ -6046,6 +6182,7 @@ pub extern "C" fn nodedb_ai_query_open(
         let engine = AiQueryEngine::new(db, prov, ai_config);
         let handle = NEXT_HANDLE.fetch_add(1, Ordering::SeqCst);
         ai_query_handle_map().write().unwrap().insert(handle, Arc::new(engine));
+        register_path(&ai_query_path_key, handle);
         unsafe { *out_handle = handle; }
         clear_error(out_error);
         true

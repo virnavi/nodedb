@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'nodedb_flutter_libs'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'Pre-compiled NodeDB native binaries for iOS'
   s.homepage         = 'https://github.com/virnavi/nodedb'
   s.license          = { :type => 'MIT' }

@@ -1,6 +1,6 @@
 # NodeDB FFI Build Status
 
-Version: `0.0.1`
+Version: `0.0.2`
 
 ## Platforms
 

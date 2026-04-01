@@ -15,12 +15,12 @@ dependencies:
   nodedb:
     git:
       url: https://github.com/virnavi/nodedb
-      ref: "0.0.1"
+      ref: "0.0.2"
       path: packages/nodedb
   nodedb_flutter_libs:
     git:
       url: https://github.com/virnavi/nodedb
-      ref: "0.0.1"
+      ref: "0.0.2"
       path: packages/nodedb_flutter_libs
   sqflite: ^2.4.0
   hive_ce: ^2.10.0
