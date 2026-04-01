@@ -1195,7 +1195,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-ai-provenance"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "nodedb-provenance",
@@ -1208,7 +1208,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-ai-query"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "nodedb-nosql",
@@ -1223,7 +1223,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-crypto"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "aes-gcm",
  "ed25519-dalek",
@@ -1240,7 +1240,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-dac"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "nodedb-storage",
@@ -1253,7 +1253,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-federation"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "nodedb-storage",
@@ -1266,7 +1266,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-ffi"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "criterion",
@@ -1293,7 +1293,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-graph"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "nodedb-storage",
@@ -1306,7 +1306,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-keyresolver"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "nodedb-storage",
@@ -1318,7 +1318,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-nosql"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "hex",
@@ -1334,7 +1334,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-provenance"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "nodedb-crypto",
@@ -1349,7 +1349,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-storage"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "aes-gcm",
  "rand 0.8.5",
@@ -1362,7 +1362,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-transport"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "dashmap",
@@ -1392,7 +1392,7 @@ dependencies = [
 
 [[package]]
 name = "nodedb-vector"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "anndists",
  "chrono",

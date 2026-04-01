@@ -292,11 +292,11 @@ packages:
     dependency: transitive
     description:
       path: "packages/inspector_sdk"
-      ref: "0.0.1"
-      resolved-ref: "0717db6bb7ec77b4e60f9feaaed3102e52c6f267"
+      ref: "0.0.2"
+      resolved-ref: a321d8a456d2cde9e5039a19a66de3c5d085d2f2
       url: "https://github.com/virnavi/nodedb"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   io:
     dependency: transitive
     description:
@@ -421,56 +421,56 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/nodedb"
-      ref: "0.0.1"
-      resolved-ref: "0717db6bb7ec77b4e60f9feaaed3102e52c6f267"
+      ref: "0.0.2"
+      resolved-ref: a321d8a456d2cde9e5039a19a66de3c5d085d2f2
       url: "https://github.com/virnavi/nodedb"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   nodedb_ffi:
     dependency: transitive
     description:
       path: "packages/nodedb_ffi"
-      ref: "0.0.1"
-      resolved-ref: "0717db6bb7ec77b4e60f9feaaed3102e52c6f267"
+      ref: "0.0.2"
+      resolved-ref: a321d8a456d2cde9e5039a19a66de3c5d085d2f2
       url: "https://github.com/virnavi/nodedb"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   nodedb_flutter_libs:
     dependency: "direct main"
     description:
       path: "packages/nodedb_flutter_libs"
-      ref: "0.0.1"
-      resolved-ref: "0717db6bb7ec77b4e60f9feaaed3102e52c6f267"
+      ref: "0.0.2"
+      resolved-ref: a321d8a456d2cde9e5039a19a66de3c5d085d2f2
       url: "https://github.com/virnavi/nodedb"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   nodedb_generator:
     dependency: "direct dev"
     description:
       path: "packages/nodedb_generator"
-      ref: "0.0.1"
-      resolved-ref: "0717db6bb7ec77b4e60f9feaaed3102e52c6f267"
+      ref: "0.0.2"
+      resolved-ref: a321d8a456d2cde9e5039a19a66de3c5d085d2f2
       url: "https://github.com/virnavi/nodedb"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   nodedb_inspector:
     dependency: "direct main"
     description:
       path: "packages/nodedb_inspector"
-      ref: "0.0.1"
-      resolved-ref: "0717db6bb7ec77b4e60f9feaaed3102e52c6f267"
+      ref: "0.0.2"
+      resolved-ref: a321d8a456d2cde9e5039a19a66de3c5d085d2f2
       url: "https://github.com/virnavi/nodedb"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   nodedb_inspector_flutter:
     dependency: "direct main"
     description:
       path: "packages/nodedb_inspector_flutter"
-      ref: "0.0.1"
-      resolved-ref: "0717db6bb7ec77b4e60f9feaaed3102e52c6f267"
+      ref: "0.0.2"
+      resolved-ref: a321d8a456d2cde9e5039a19a66de3c5d085d2f2
       url: "https://github.com/virnavi/nodedb"
     source: git
-    version: "0.0.1"
+    version: "0.0.2"
   objective_c:
     dependency: transitive
     description:
